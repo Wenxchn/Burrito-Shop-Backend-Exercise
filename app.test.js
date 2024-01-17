@@ -162,3 +162,31 @@ test('getting individual order from various ids', async () => {
     .send(query)
   expect(res.body).toEqual(answer[2])
 })
+
+test('placing an order for a regular chicken burrito with black olives and rice but no sour cream', async () => {
+  app.resetOrders()
+  const query = {
+    name: 'Chicken Burrito',
+    size: 'regular',
+    price: 3,
+    blackOlives: true,
+    rice: true,
+    sourCream: false,
+  }
+  const res = await request(server)
+    .post('/api/orders')
+    .set('Content-type', 'application/json')
+    .send(query)
+  const answer = [
+    {
+      name: 'Chicken Burrito',
+      size: 'regular',
+      price: 3,
+      id: 0,
+      blackOlives: true,
+      rice: true,
+      sourCream: false,
+    },
+  ]
+  expect(res.body).toEqual(answer)
+})
